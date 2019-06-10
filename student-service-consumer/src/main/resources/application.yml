@@ -1,5 +1,5 @@
 server:
-  port: 8764
+  port: 8765
 
 # 服务与服务之间相互调用一般都是根据这个name 。
 spring:

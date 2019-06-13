@@ -11,6 +11,15 @@
 
     <artifactId>zuul-service</artifactId>
 
+    <properties>
+        <mysql.driver.version>5.1.37</mysql.driver.version>
+        <mybatis.plus.version>3.1.0</mybatis.plus.version>
+        <commons.io.version>2.6</commons.io.version>
+        <guava.version>27.1-jre</guava.version>
+        <commons.lang.version>3.9</commons.lang.version>
+        <commons.collection.version>4.3</commons.collection.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -21,5 +30,4 @@
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
     </dependencies>
-
 </project>

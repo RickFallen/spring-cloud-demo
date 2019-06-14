@@ -1,18 +1,34 @@
 package com.kuaibao.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-@Data
+@ApiModel
 public class Response<T> {
+    @Setter
+    @Getter
+    @ApiModelProperty(value = "数据承载" ,dataType = "java.lang.Object")
     private T body;
+
+    @Setter
+    @Getter
+    @ApiModelProperty(value = "返回消息" , dataType = "java.lang.String")
     private String message;
+
+    @Setter
+    @Getter
+    @ApiModelProperty(value = "响应状态" , dataType = "java.lang.Integer")
     private Integer status;
 
-    @JsonIgnore
+    @JSONField(serialize = false)
+    @ApiModelProperty(hidden = true)
     private final String DEFAULT_SUCCESS_MESSAGE = "成功";
-    @JsonIgnore
+    @JSONField(serialize = false)
+    @ApiModelProperty(hidden = true)
     private final String DEFAULT_ERROR_MESSAGE = "失败";
 
     /**

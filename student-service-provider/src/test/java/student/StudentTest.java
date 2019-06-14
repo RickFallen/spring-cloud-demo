@@ -1,5 +1,6 @@
 package student;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,13 +9,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuaibao.StudentServiceProviderApplication;
+import com.kuaibao.student.dto.StudentDTO;
+import com.kuaibao.student.dto.StudentQueryDTO;
 import com.kuaibao.student.mapper.Student;
 import com.kuaibao.student.mapper.StudentMapper;
 import com.kuaibao.student.service.StudentService;
+import com.kuaibao.utils.QueryDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +28,7 @@ import java.util.List;
  * mybatis - plus 用法详见文档
  *
  * https://mp.baomidou.com/guide/crud-interface.html
+ *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StudentServiceProviderApplication.class)
@@ -123,5 +129,11 @@ public class StudentTest {
                 .eq(Student::getTeacherId,"123");
         page = studentMapper.selectPage(page, queryWrapper);
         System.out.println(new ObjectMapper().writeValueAsString(page));
+    }
+
+    @Test
+    public void queryTest(){
+        IPage<StudentDTO> query = studentService.query(new StudentQueryDTO());
+        System.out.println(JSON.toJSONString(query));
     }
 }

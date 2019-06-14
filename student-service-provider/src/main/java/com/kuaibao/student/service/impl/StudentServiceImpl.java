@@ -1,13 +1,19 @@
 package com.kuaibao.student.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kuaibao.student.dto.StudentDTO;
+import com.kuaibao.student.dto.StudentQueryDTO;
 import com.kuaibao.student.mapper.Student;
 import com.kuaibao.student.mapper.StudentMapper;
 import com.kuaibao.student.service.StudentService;
 import com.kuaibao.utils.Assertion;
+import com.kuaibao.utils.PageUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +21,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -77,5 +86,24 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             this.updateById(student);
         }
         return id;
+    }
+
+    @Override
+    public IPage<StudentDTO> query(StudentQueryDTO queryDTO) {
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .lambda()
+                .gt(Objects.nonNull(queryDTO.getAgeStart()), Student::getAge, queryDTO.getAgeStart())
+                .lt(Objects.nonNull(queryDTO.getAgeEnd()), Student::getAge, queryDTO.getAgeEnd())
+                .eq(Objects.nonNull(queryDTO.getName()), Student::getName, queryDTO.getName())
+                .eq(Objects.nonNull(queryDTO.getTeacherId()), Student::getTeacherId, queryDTO.getTeacherId());
+
+        IPage<Student> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
+        page = studentMapper.selectPage(page, queryWrapper);
+
+        //实体类转DTO
+        IPage<StudentDTO> convert = page.convert(PageUtils.getFuncion(StudentDTO.class));
+
+        return convert;
     }
 }

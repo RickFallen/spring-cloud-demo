@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: zuul-service
+    name: gateway
 
 zuul:
   routes:

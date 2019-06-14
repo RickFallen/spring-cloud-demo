@@ -14,12 +14,10 @@ import com.kuaibao.student.dto.StudentQueryDTO;
 import com.kuaibao.student.mapper.Student;
 import com.kuaibao.student.mapper.StudentMapper;
 import com.kuaibao.student.service.StudentService;
-import com.kuaibao.utils.QueryDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -133,7 +131,7 @@ public class StudentTest {
 
     @Test
     public void queryTest(){
-        IPage<StudentDTO> query = studentService.query(new StudentQueryDTO());
+        IPage<StudentDTO> query = studentService.queryByLambda(new StudentQueryDTO());
         System.out.println(JSON.toJSONString(query));
     }
 }

@@ -1,7 +1,6 @@
 package com.kuaibao.student.service.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
@@ -21,14 +20,15 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * <p>
  *  服务实现类
  * </p>
+ *
+ * 增删改查详见文档
+ * https://mp.baomidou.com/guide/#%E7%89%B9%E6%80%A7
  *
  * @author 
  * @since 2019-06-13
@@ -47,7 +47,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public Integer getAge() {
+    public Integer getPort() {
         return port;
     }
 
@@ -89,21 +89,69 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public IPage<StudentDTO> query(StudentQueryDTO queryDTO) {
+    public IPage<StudentDTO> queryByLambda(StudentQueryDTO queryDTO) {
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper
                 .lambda()
+                //如果不为空则大于等于
                 .gt(Objects.nonNull(queryDTO.getAgeStart()), Student::getAge, queryDTO.getAgeStart())
+                //如果不为空则小于等于
                 .lt(Objects.nonNull(queryDTO.getAgeEnd()), Student::getAge, queryDTO.getAgeEnd())
-                .eq(Objects.nonNull(queryDTO.getName()), Student::getName, queryDTO.getName())
+                //如果不为空则等于
+                .eq(StringUtils.isNotEmpty(queryDTO.getName()), Student::getName, queryDTO.getName())
+                //如果不为空则等于
                 .eq(Objects.nonNull(queryDTO.getTeacherId()), Student::getTeacherId, queryDTO.getTeacherId());
 
         IPage<Student> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
         page = studentMapper.selectPage(page, queryWrapper);
 
         //实体类转DTO
-        IPage<StudentDTO> convert = page.convert(PageUtils.getFuncion(StudentDTO.class));
+        IPage<StudentDTO> convert = page.convert(PageUtils.getConvertFunction(StudentDTO.class));
 
         return convert;
+    }
+
+    /**
+     *
+     * 这种风格写起来不崩溃吗?
+     *
+     * @param queryDTO
+     * @return
+     */
+    @Override
+    public IPage<StudentDTO> queryNormal(StudentQueryDTO queryDTO) {
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+
+        String name = queryDTO.getName();
+        if(StringUtils.isNotEmpty(name)){
+            queryWrapper.eq("name", name);
+        }
+
+        Integer ageStart = queryDTO.getAgeStart();
+        Integer ageEnd = queryDTO.getAgeEnd();
+        if(Objects.nonNull(ageStart)){
+            queryWrapper.ge("age",ageStart);
+        }
+        if(Objects.nonNull(ageEnd)){
+            queryWrapper.le("age",ageEnd);
+        }
+
+        String teacherId = queryDTO.getTeacherId();
+        if(StringUtils.isNotEmpty(teacherId)){
+            queryWrapper.eq("teacher_id", teacherId);
+        }
+
+        IPage<Student> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
+        page = studentMapper.selectPage(page, queryWrapper);
+
+        //实体类转DTO
+        IPage<StudentDTO> convert = page.convert(PageUtils.getConvertFunction(StudentDTO.class));
+
+        return convert;
+    }
+
+    @Override
+    public IPage<StudentDTO> queryByXML(StudentQueryDTO queryDTO) {
+        return studentMapper.queryList(new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize()), queryDTO);
     }
 }

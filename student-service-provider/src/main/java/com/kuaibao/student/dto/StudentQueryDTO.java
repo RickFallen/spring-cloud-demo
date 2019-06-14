@@ -19,4 +19,10 @@ public class StudentQueryDTO extends QueryDTO {
 
     @ApiModelProperty(value = "结束年龄" , required = true , dataType = "java.lang.Integer")
     private Integer ageEnd;
+
+    @ApiModelProperty(value = "入学时间开始" , required = true , dataType = "java.lang.String")
+    private String joinTimeStart;
+
+    @ApiModelProperty(value = "入学时间结束" , required = true , dataType = "java.lang.String")
+    private String joinTimeEnd;
 }

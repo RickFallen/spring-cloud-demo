@@ -21,11 +21,9 @@ public class MybatisPlusConfig {
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         List<ISqlParser> sqlParserList = new ArrayList<>();
-        // 攻击 SQL 阻断解析器、加入解析链
+        // 攻击 SQL 阻断解析器、加入解析链  防止sql注入攻击
         sqlParserList.add(new BlockAttackSqlParser());
         paginationInterceptor.setSqlParserList(sqlParserList);
         return paginationInterceptor;
     }
-
-
 }

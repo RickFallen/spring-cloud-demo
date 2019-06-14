@@ -9,11 +9,30 @@
         <result column="age" property="age" />
         <result column="blocked" property="blocked" />
         <result column="teacher_id" property="teacherId" />
+        <result column="join_time" property="joinTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, age, blocked, teacher_id
+        id, name, age, blocked, teacher_id , join_time
     </sql>
 
+    <select id="queryList" resultType="com.kuaibao.student.dto.StudentDTO">
+        select * from student stu where 1= 1
+        <if test="param.teacherId != null and param.teacherId != ''">
+            and stu.teacher_id = {param.teacherId}
+        </if>
+
+        <if test="param.name != null and param.name != ''">
+            and stu.`name` = {param.name}
+        </if>
+
+        <if test="param.ageStart != null and param.ageStart != ''">
+            and stu.age &gt;= {param.ageStart}
+        </if>
+
+        <if test="param.ageEnd != null and param.ageEnd != ''">
+            and stu.age &lt;= {param.ageEnd}
+        </if>
+    </select>
 </mapper>

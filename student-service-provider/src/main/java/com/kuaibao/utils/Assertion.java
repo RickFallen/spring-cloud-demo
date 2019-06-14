@@ -17,7 +17,7 @@ public class Assertion {
             throw new RuntimeException(message);
     }
 
-    public static void throwError(BindingResult result){
+    public static void checkError(BindingResult result){
         if(result.hasErrors()){
             for (ObjectError error : result.getAllErrors()) {
                 throw new RuntimeException(error.getDefaultMessage());

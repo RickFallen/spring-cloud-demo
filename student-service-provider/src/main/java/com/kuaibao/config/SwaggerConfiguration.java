@@ -25,6 +25,9 @@ import java.util.List;
 @EnableSwagger2
 @EnableSwaggerBootstrapUI
 public class SwaggerConfiguration {
+    @Value("${server.port}")
+    private Integer port;
+
     @Bean
     public Docket createRestApi() {
         ParameterBuilder ticketPar = new ParameterBuilder();
@@ -52,6 +55,7 @@ public class SwaggerConfiguration {
                 .title("学生服务 RESTful APIs")
                 .description("API")
                 .version("1.0")
+                .termsOfServiceUrl("http://localhost:" + port + "/")
                 .build();
     }
 }

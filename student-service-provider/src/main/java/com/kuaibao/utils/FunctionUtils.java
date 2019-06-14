@@ -1,12 +1,10 @@
 package com.kuaibao.utils;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import org.apache.commons.beanutils.BeanUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 
-public class PageUtils {
+public class FunctionUtils {
     /**
      * @param clazzToConvert
      * @param <T>   源对象

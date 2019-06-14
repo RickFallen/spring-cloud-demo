@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 @MapperScan("com.kuaibao.**.mapper")
+//开启声明式事物
+@EnableTransactionManagement
 public class MybatisPlusConfig {
     /**
      * 分页

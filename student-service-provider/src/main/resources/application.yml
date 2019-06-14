@@ -50,4 +50,4 @@ mybatis-plus:
     password: ${spring.datasource.password}
     parentPackage: com.kuaibao.module
     #从数据库要生成模板的表名,可支持多个表名,先不做
-    table: student
+    table: test_eee

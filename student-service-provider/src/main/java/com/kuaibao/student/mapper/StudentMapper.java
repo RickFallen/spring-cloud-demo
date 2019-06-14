@@ -19,7 +19,7 @@ import org.apache.ibatis.annotations.Param;
 public interface StudentMapper extends BaseMapper<Student> {
     /**
      * <p>
-     * 查询 : 根据state状态查询用户列表，分页显示
+     * 查询 : 根据queryDTO查询列表，分页显示
      * 注意!!: 如果入参是有多个,需要加注解指定参数名才能在xml中取值
      * </p>
      *

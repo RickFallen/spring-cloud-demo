@@ -12,7 +12,7 @@ import com.kuaibao.student.mapper.Student;
 import com.kuaibao.student.mapper.StudentMapper;
 import com.kuaibao.student.service.StudentService;
 import com.kuaibao.utils.Assertion;
-import com.kuaibao.utils.PageUtils;
+import com.kuaibao.utils.FunctionUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -105,8 +105,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         IPage<Student> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
         page = studentMapper.selectPage(page, queryWrapper);
 
-        //实体类转DTO
-        IPage<StudentDTO> convert = page.convert(PageUtils.getConvertFunction(StudentDTO.class));
+        //PO类转DTO
+        IPage<StudentDTO> convert = page.convert(FunctionUtils.getConvertFunction(StudentDTO.class));
 
         return convert;
     }
@@ -145,7 +145,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         page = studentMapper.selectPage(page, queryWrapper);
 
         //实体类转DTO
-        IPage<StudentDTO> convert = page.convert(PageUtils.getConvertFunction(StudentDTO.class));
+        IPage<StudentDTO> convert = page.convert(FunctionUtils.getConvertFunction(StudentDTO.class));
 
         return convert;
     }

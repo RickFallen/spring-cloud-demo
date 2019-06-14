@@ -61,12 +61,14 @@ public class MapperGenerator {
                 .setBaseColumnList(true)// XML columList
                 .setOpen(false)//生成后打开文件夹
                 .setAuthor("")
-                // 自定义文件命名，注意 %s 会自动填充表实体属性！
+                //自定义文件命名，注意 %s 会自动填充表实体属性！
                 .setMapperName("%sMapper")
                 .setXmlName("%sMapper")
                 .setServiceName("%sService")
                 .setServiceImplName("%sServiceImpl")
                 .setControllerName("%sController")
+                .setSwagger2(true)
+
         );
 
         /**

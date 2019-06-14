@@ -6,7 +6,6 @@
     <modules>
         <module>eureka-server</module>
         <module>student-service-provider</module>
-        <module>student-service-consumer</module>
         <module>zuul-service</module>
     </modules>
     <parent>

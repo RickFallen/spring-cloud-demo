@@ -2,7 +2,7 @@ server:
   port: 8763
   servlet:
     #工程路径名
-    context-path: student
+    context-path: /student
 
 spring:
   application:
@@ -50,4 +50,4 @@ mybatis-plus:
     password: ${spring.datasource.password}
     parentPackage: com.kuaibao.module
     #从数据库要生成模板的表名,可支持多个表名,先不做
-    table: test_eee
+    table: student

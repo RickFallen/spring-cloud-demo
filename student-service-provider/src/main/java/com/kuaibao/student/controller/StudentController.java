@@ -7,6 +7,7 @@ import com.kuaibao.student.mapper.Student;
 import com.kuaibao.student.service.StudentService;
 import com.kuaibao.utils.Assertion;
 import com.kuaibao.utils.FunctionUtils;
+import com.kuaibao.utils.KbPage;
 import com.kuaibao.utils.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,8 +48,8 @@ public class StudentController {
     }
 
     @ApiOperation("获取学生信息")
-    @RequestMapping(value = "/{id}" ,method = RequestMethod.POST)
-    public Response<StudentDTO> save(@PathVariable String id){
+    @RequestMapping(value = "/get" ,method = RequestMethod.GET)
+    public Response<StudentDTO> save(@RequestParam String id){
         Student student = studentService.getById(id);
         Assertion.notNull(student, "无效的id");
         StudentDTO studentDTO = new StudentDTO();
@@ -63,29 +64,29 @@ public class StudentController {
     }
 
     @ApiOperation("学生查询(lambda风格)")
-    @RequestMapping(value = "/query" ,method = RequestMethod.POST)
-    public Response<List<StudentDTO>> queryByLambda(@RequestBody StudentQueryDTO queryDTO){
-        IPage<StudentDTO> list = studentService.queryByLambda(queryDTO);
+    @RequestMapping(value = "/queryByLambda" ,method = RequestMethod.POST)
+    public Response<KbPage<StudentDTO>> queryByLambda(@RequestBody StudentQueryDTO queryDTO){
+        KbPage<StudentDTO> list = studentService.queryByLambda(queryDTO);
         return Response.of().success().body(list);
     }
 
     @ApiOperation("学生查询(普通风格)")
-    @RequestMapping(value = "/query" ,method = RequestMethod.POST)
-    public Response<List<StudentDTO>> queryNormal(@RequestBody StudentQueryDTO queryDTO){
-        IPage<StudentDTO> list = studentService.queryNormal(queryDTO);
+    @RequestMapping(value = "/queryNormal" ,method = RequestMethod.POST)
+    public Response<KbPage<StudentDTO>> queryNormal(@RequestBody StudentQueryDTO queryDTO){
+        KbPage<StudentDTO> list = studentService.queryNormal(queryDTO);
         return Response.of().success().body(list);
     }
 
     @ApiOperation("学生查询(XML风格)")
-    @RequestMapping(value = "/query" ,method = RequestMethod.POST)
-    public Response<List<StudentDTO>> queryByXML(@RequestBody StudentQueryDTO queryDTO){
-        IPage<StudentDTO> list = studentService.queryByXML(queryDTO);
+    @RequestMapping(value = "/queryByXML" ,method = RequestMethod.POST)
+    public Response<KbPage<StudentDTO>> queryByXML(@RequestBody StudentQueryDTO queryDTO){
+        KbPage<StudentDTO> list = studentService.queryByXML(queryDTO);
         return Response.of().success().body(list);
     }
 
     @ApiOperation("批量保存")
     @RequestMapping(value = "/batch" ,method = RequestMethod.POST)
-    public Response queryByXML(@RequestBody List<StudentDTO> students){
+    public Response<Student> queryByXML(@RequestBody List<StudentDTO> students){
         //dto转po
         List<Student> entityList = students
                                         .stream()

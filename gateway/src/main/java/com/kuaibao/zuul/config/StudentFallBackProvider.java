@@ -18,8 +18,15 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 错误处理器
+ *
+ */
 @Component
-public class FallBackProvider implements FallbackProvider {
+public class StudentFallBackProvider implements FallbackProvider {
+    /**
+     * 指定需要进行错误处理的服务
+     */
     @Value("${zuul.routes.student.serviceId}")
     private String STUDENT_ROUTE;
 

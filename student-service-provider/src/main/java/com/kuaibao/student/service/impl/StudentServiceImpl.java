@@ -13,6 +13,7 @@ import com.kuaibao.student.mapper.StudentMapper;
 import com.kuaibao.student.service.StudentService;
 import com.kuaibao.utils.Assertion;
 import com.kuaibao.utils.FunctionUtils;
+import com.kuaibao.utils.KbPage;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,7 +90,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public IPage<StudentDTO> queryByLambda(StudentQueryDTO queryDTO) {
+    public KbPage<StudentDTO> queryByLambda(StudentQueryDTO queryDTO) {
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper
                 .lambda()
@@ -102,11 +103,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
                 //如果不为空则等于
                 .eq(Objects.nonNull(queryDTO.getTeacherId()), Student::getTeacherId, queryDTO.getTeacherId());
 
-        IPage<Student> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
-        page = studentMapper.selectPage(page, queryWrapper);
-
+        IPage<Student> page = studentMapper.selectPage(new KbPage<>(queryDTO.getPageNum(), queryDTO.getPageSize()), queryWrapper);
         //PO类转DTO
-        IPage<StudentDTO> convert = page.convert(FunctionUtils.getConvertFunction(StudentDTO.class));
+        KbPage<StudentDTO> convert = (KbPage<StudentDTO>) page.convert(FunctionUtils.getConvertFunction(StudentDTO.class));
 
         return convert;
     }
@@ -119,7 +118,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      * @return
      */
     @Override
-    public IPage<StudentDTO> queryNormal(StudentQueryDTO queryDTO) {
+    public KbPage<StudentDTO> queryNormal(StudentQueryDTO queryDTO) {
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
 
         String name = queryDTO.getName();
@@ -141,17 +140,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             queryWrapper.eq("teacher_id", teacherId);
         }
 
-        IPage<Student> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
+        IPage<Student> page = new KbPage<>(queryDTO.getPageNum(), queryDTO.getPageSize());
         page = studentMapper.selectPage(page, queryWrapper);
-
-        //实体类转DTO
-        IPage<StudentDTO> convert = page.convert(FunctionUtils.getConvertFunction(StudentDTO.class));
+        //PO类转DTO
+        KbPage<StudentDTO> convert = (KbPage<StudentDTO>) page.convert(FunctionUtils.getConvertFunction(StudentDTO.class));
 
         return convert;
     }
 
     @Override
-    public IPage<StudentDTO> queryByXML(StudentQueryDTO queryDTO) {
-        return studentMapper.queryList(new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize()), queryDTO);
+    public KbPage<StudentDTO> queryByXML(StudentQueryDTO queryDTO) {
+        return studentMapper.queryList(new KbPage<>(queryDTO.getPageNum(), queryDTO.getPageSize()), queryDTO);
     }
 }

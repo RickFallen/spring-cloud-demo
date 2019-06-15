@@ -7,7 +7,6 @@ spring:
   application:
     name: springcloud-eureka-server
 
-
 eureka:
   instance:
     hostname: localhost

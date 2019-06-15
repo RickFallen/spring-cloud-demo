@@ -2,10 +2,9 @@ package com.kuaibao.student.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kuaibao.student.dto.StudentDTO;
 import com.kuaibao.student.dto.StudentQueryDTO;
+import com.kuaibao.utils.KbPage;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -27,5 +26,5 @@ public interface StudentMapper extends BaseMapper<Student> {
      * @param queryDTO 参数
      * @return 分页对象
      */
-    IPage<StudentDTO> queryList(Page<StudentDTO> page, @Param("param") StudentQueryDTO queryDTO);
+    KbPage<StudentDTO> queryList(KbPage<StudentDTO> page, @Param("param") StudentQueryDTO queryDTO);
 }

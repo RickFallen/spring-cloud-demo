@@ -55,7 +55,7 @@ public class SwaggerConfiguration {
                 .title("学生服务 RESTful APIs")
                 .description("API")
                 .version("1.0")
-                .termsOfServiceUrl("http://localhost:" + port + "/")
+                //.termsOfServiceUrl("http://localhost:" + port + "/")
                 .build();
     }
 }
